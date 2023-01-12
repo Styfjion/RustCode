@@ -1,36 +1,38 @@
-// use std::{sync::OnceLock, thread};
-// pub fn test_once_call() {
-//     // 子线程中调用
-//     let handle = thread::spawn(|| {
-//         let logger = Logger::global();
-//         logger.log("thread message".to_string());
-//     });
-//
-//     // 主线程调用
-//     let logger = Logger::global();
-//     logger.log("some message".to_string());
-//
-//     let logger2 = Logger::global();
-//     logger2.log("other message".to_string());
-//
-//     handle.join().unwrap();
-// }
-//
-// #[derive(Debug)]
-// struct Logger;
-//
-// static LOGGER: OnceLock<Logger> = OnceLock::new();
-//
-// impl Logger {
-//     fn global() -> &'static Logger {
-//         // 获取或初始化 Logger
-//         LOGGER.get_or_init(|| {
-//             println!("Logger is being created..."); // 初始化打印
-//             Logger
-//         })
-//     }
-//
-//     fn log(&self, message: String) {
-//         println!("{}", message)
-//     }
-// }
+use std::{sync::OnceLock, thread};
+use std::sync::Mutex;
+
+pub fn test_once_call() {
+    // 子线程中调用
+    let handle = thread::spawn(|| {
+        let global = instance();
+        let mut inner = global.lock().unwrap();
+        inner.push(2);
+    });
+
+    // 主线程调用
+    let mut inner = instance().lock().unwrap();
+    inner.push(3);
+    drop(inner);
+
+    handle.join().unwrap();
+    println!("{:?}", instance().lock().unwrap())
+}
+
+
+static GLOBAL: OnceLock<Mutex<Vec<u8>>> = OnceLock::new();
+
+fn instance() -> &'static Mutex<Vec<u8>> {
+    GLOBAL.get_or_init(||{
+        Mutex::new(vec![1])
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::once_call_test::test_once_call;
+
+    #[test]
+    fn test(){
+        test_once_call();
+    }
+}
