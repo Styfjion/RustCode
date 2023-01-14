@@ -8,6 +8,7 @@ mod once_call_test;
 mod lazy_static_test;
 mod lazy_static_tokio_test;
 mod static_mutex_test;
+mod serde_enum_struct_test;
 
 use std::collections::HashMap;
 use test1::*;
