@@ -16,7 +16,7 @@ async fn foo(data: Data) -> u8 {
     data.owned_fn().await
 }
 
-async fn foo_ref<'a>(data: &'a Data) -> u8 {
+async fn foo_ref(data: &Data) -> u8 {
     data.owned_fn().await
 }
 
