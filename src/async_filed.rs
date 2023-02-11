@@ -1,5 +1,10 @@
 use async_trait::async_trait;
 
+#[async_trait]
+trait Step {
+    async fn run(&self) -> u8;
+}
+
 struct Data {
     name: String,
     id: i32,
@@ -26,15 +31,24 @@ struct S<'a, F>
 {
     name: String,
     foo_ref: fn(&'a Data) -> F,
-    // foo: fn(Data) -> F
 }
 
 impl<'a, F> S<'a, F>
     where
-        F: std::future::Future + Send,
+        F: std::future::Future + Send + 'a,
 {
-    fn normal_func(&self) {
-        println!("name is {}", self.name);
+    async fn normal_func(&self, data: &'a Data) {
+        (self.foo_ref)(data).await;
+    }
+}
+
+#[async_trait]
+impl<'a, F> Step for S<'a, F>
+    where
+        F: std::future::Future + Send + 'a, {
+    async fn run(&self) -> u8 {
+        println!("run");
+        0
     }
 }
 
@@ -42,14 +56,14 @@ async fn example() {
     let name = String::from("name");
     let s = S { name, foo_ref };
     let data = Data{name:"data".to_string(),id:1};
-    (s.foo_ref)(&data).await;
-    s.normal_func();
+    s.normal_func(&data).await;
+    s.run().await;
 }
 
 
 #[cfg(test)]
 mod test {
-    use crate::async_filed::{Data, example, foo_ref};
+    use crate::async_filed::{example, foo_ref};
 
     #[tokio::test]
     async fn test() {
