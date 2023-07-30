@@ -6,7 +6,6 @@ use crate::client::ClientMessage;
 use crate::client_listener::Listener;
 use crate::task::Task;
 use tokio::select;
-use tokio::task::JoinHandle;
 use tokio_util::sync::CancellationToken;
 
 type StdError = Box<dyn std::error::Error + Send + Sync>;
@@ -30,8 +29,7 @@ async fn main() -> Result<(), StdError> {
     let mut task = tokio::spawn(async move { Task::execute_task(start_msg, cloned_token).await });
 
     // 监听是否收到取消消息
-    let cancel_task: JoinHandle<Result<ClientMessage, StdError>> =
-        tokio::spawn(async move { Task::receive_message(tx_2).await });
+    let cancel_task = tokio::spawn(async move { Task::receive_message(tx_2).await });
 
     select! {
         result = &mut task => {
