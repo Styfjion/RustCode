@@ -1,4 +1,4 @@
-#![feature(once_cell)]
+// #![feature(once_cell)]
 #[macro_use]
 extern crate lazy_static;
 mod test1;
@@ -9,6 +9,12 @@ mod lazy_static_test;
 mod lazy_static_tokio_test;
 mod static_mutex_test;
 mod serde_enum_struct_test;
+mod Lee1814;
+mod string_test;
+mod wrapper_cancel_token;
+mod async_filed;
+mod mut_test;
+mod Lee1626;
 
 use std::collections::HashMap;
 use test1::*;
