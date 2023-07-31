@@ -11,29 +11,40 @@ impl Task {
     pub async fn execute_task(
         message: ClientMessage,
         cancel_token: CancellationToken,
-    ) -> Result<(), StdError> {
+        time_secs: u64,
+    ) -> Result<String, StdError> {
         println!("start task, start message is {:?}", message);
         //模拟执行任务，收到cancel信号后停止任务
         select! {
-            _ = tokio::time::sleep(std::time::Duration::from_secs(5)) => {
+            _ = tokio::time::sleep(std::time::Duration::from_secs(time_secs)) => {
                 println!("task has been done");
             },
             _ = cancel_token.cancelled() => {
                 println!("task has been cancelled from job, task is stopped")
             }
         }
-        Ok(())
+        Ok("Success".to_string())
     }
 
-    pub async fn receive_message(tx: mpsc::Sender<Message>) -> Result<ClientMessage, StdError> {
+    pub async fn receive_message(
+        tx: mpsc::Sender<Message>,
+        cancel_token: CancellationToken,
+    ) -> Result<ClientMessage, StdError> {
         let (resp_tx, resp_rx) = oneshot::channel();
-        tx.send(Message::Receive { resp: resp_tx }).await?;
+        tx.send(Message::Receive {
+            resp: resp_tx,
+            cancel_token,
+        })
+        .await?;
         let msg = resp_rx.await?;
         println!("task receive msg is {:?}", msg);
         Ok(msg)
     }
 
-    pub async fn send_result(tx: mpsc::Sender<Message>, message: ClientMessage) -> Result<(), StdError> {
+    pub async fn send_result(
+        tx: mpsc::Sender<Message>,
+        message: ClientMessage,
+    ) -> Result<(), StdError> {
         let (resp_tx, resp_rx) = oneshot::channel();
         tx.send(Message::Send {
             message,
