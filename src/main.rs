@@ -12,6 +12,8 @@ mod serde_enum_struct_test;
 mod string_test;
 mod async_filed;
 mod mut_test;
+mod process_invoker;
+mod tokio_process;
 
 use std::collections::HashMap;
 use test1::*;
