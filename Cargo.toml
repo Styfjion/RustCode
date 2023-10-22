@@ -21,6 +21,10 @@ path = "src/tyr_class/default.rs"
 name = "index"
 path = "src/tyr_class/index.rs"
 
+[[bin]]
+name = "copy_drop"
+path = "src/tyr_class/copy_drop.rs"
+
 
 [dependencies]
 async-trait = "0.1"
