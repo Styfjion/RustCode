@@ -9,6 +9,18 @@ edition = "2021"
 name = "tokio_practise"
 path = "src/tokio_channel_practise/main.rs"
 
+[[bin]]
+name = "deref"
+path = "src/tyr_class/deref.rs"
+
+[[bin]]
+name = "default"
+path = "src/tyr_class/default.rs"
+
+[[bin]]
+name = "index"
+path = "src/tyr_class/index.rs"
+
 
 [dependencies]
 async-trait = "0.1"
