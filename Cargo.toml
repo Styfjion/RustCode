@@ -25,6 +25,26 @@ path = "src/tyr_class/index.rs"
 name = "copy_drop"
 path = "src/tyr_class/copy_drop.rs"
 
+[[bin]]
+name = "box"
+path = "src/smart_points/box.rs"
+
+[[bin]]
+name = "cow1"
+path = "src/smart_points/cow1.rs"
+
+[[bin]]
+name = "cow2"
+path = "src/smart_points/cow2.rs"
+
+[[bin]]
+name = "guard"
+path = "src/smart_points/guard.rs"
+
+[[bin]]
+name = "mystring"
+path = "src/smart_points/my_string.rs"
+
 
 [dependencies]
 async-trait = "0.1"
@@ -40,3 +60,5 @@ lazy_static = "1"
 tokio = { version = "1", features = ["full"] }
 tokio-util = "0.7.4"
 futures = "0.3.26"
+url = "2.4.1"
+anyhow = "1.0.75"
