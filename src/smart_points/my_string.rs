@@ -6,7 +6,7 @@ const MINI_STRING_MAX_LEN: usize = 30;
 
 struct MiniString {
     len: u8,
-    data: [u8; MINI_STRING_MAX_LEN]
+    data: [u8; MINI_STRING_MAX_LEN],
 }
 
 impl MiniString {
@@ -16,7 +16,7 @@ impl MiniString {
         data[..bytes.len()].copy_from_slice(bytes);
         Self {
             len: bytes.len() as u8,
-            data
+            data,
         }
     }
 }
@@ -38,7 +38,7 @@ impl Debug for MiniString {
 #[derive(Debug)]
 enum MyString {
     Inline(MiniString),
-    Standard(String)
+    Standard(String),
 }
 
 impl Deref for MyString {
@@ -47,16 +47,19 @@ impl Deref for MyString {
     fn deref(&self) -> &Self::Target {
         match self {
             MyString::Inline(mini_str) => mini_str.deref(),
-            MyString::Standard(standard_str) => standard_str
+            MyString::Standard(standard_str) => standard_str,
         }
     }
 }
 
-impl<T> From<T> for MyString where T: AsRef<str> {
+impl<T> From<T> for MyString
+where
+    T: AsRef<str>,
+{
     fn from(value: T) -> Self {
         match value.as_ref().len() > MINI_STRING_MAX_LEN {
             true => Self::Standard(value.as_ref().to_owned()),
-            _ => Self::Inline(MiniString::new(value))
+            _ => Self::Inline(MiniString::new(value)),
         }
     }
 }
@@ -73,7 +76,7 @@ impl MyString {
                     new_string.push_str(s);
                     *self = Self::Standard(new_string);
                 }
-            },
+            }
             Self::Standard(standard) => {
                 standard.push_str(s);
             }
@@ -111,4 +114,15 @@ fn main() {
     // MyString 可以使用一切 &str 接口，感谢 Rust 的自动 Deref
     assert!(s1.ends_with("world"));
     assert!(s2.starts_with('这'));
+
+    let s = String::from("这是一个超过了三十个字节的很长很长的字符串");
+    println!("s: {:p}", &*s);
+    // From<T: AsRef<str>> 的实现会导致额外的复制
+    let s3: MyString = s.into();
+    println!("s3: {:p}", &*s3);
+
+    let mut s4: MyString = "Hello Tyr! ".into();
+    println!("s4: {:?}", s4);
+    s4.push_str("这是一个超过了三十个字节的很长很长的字符串");
+    println!("s4: {:?}", s4);
 }

@@ -45,6 +45,18 @@ path = "src/smart_points/guard.rs"
 name = "mystring"
 path = "src/smart_points/my_string.rs"
 
+[[bin]]
+name = "slice_practise"
+path = "src/data_structure/slice_practise.rs"
+
+[[bin]]
+name = "hash"
+path = "src/hash/hash.rs"
+
+[[bin]]
+name = "btree_map"
+path = "src/hash/btree_map.rs"
+
 
 [dependencies]
 async-trait = "0.1"
@@ -62,3 +74,4 @@ tokio-util = "0.7.4"
 futures = "0.3.26"
 url = "2.4.1"
 anyhow = "1.0.75"
+itertools = "0.11.0"
