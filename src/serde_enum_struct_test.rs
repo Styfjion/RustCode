@@ -57,12 +57,11 @@ mod tests {
             Value::String("hello".to_string()),
             Value::String(r###"[{"key1":"test", "key2":1}]"###.to_string()),
         ];
+        let trans_to_value = |prime: Value| {
+            let prime_str = prime.as_str().unwrap_or("");
+            serde_json::from_str(prime_str).unwrap_or(prime)
+        };
         let new_vec: Vec<_> = value_vec.into_iter().map(trans_to_value).collect();
         println!("{new_vec:?}")
-    }
-
-    fn trans_to_value(prime: Value) -> Value {
-        let prime_str = prime.as_str().unwrap_or("");
-        serde_json::from_str(prime_str).unwrap_or(prime)
     }
 }
