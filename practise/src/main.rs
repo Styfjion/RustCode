@@ -105,3 +105,11 @@ fn main() {
     test_2();
     test_3();
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_feature_func() {
+        utils::feature_func();
+    }
+}

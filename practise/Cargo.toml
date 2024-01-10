@@ -1,0 +1,96 @@
+[package]
+name = "practise"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "tokio_practise"
+path = "src/tokio_channel_practise/main.rs"
+
+[[bin]]
+name = "deref"
+path = "src/tyr_class/deref.rs"
+
+[[bin]]
+name = "default"
+path = "src/tyr_class/default.rs"
+
+[[bin]]
+name = "index"
+path = "src/tyr_class/index.rs"
+
+[[bin]]
+name = "copy_drop"
+path = "src/tyr_class/copy_drop.rs"
+
+[[bin]]
+name = "box"
+path = "src/smart_points/box.rs"
+
+[[bin]]
+name = "cow1"
+path = "src/smart_points/cow1.rs"
+
+[[bin]]
+name = "cow2"
+path = "src/smart_points/cow2.rs"
+
+[[bin]]
+name = "guard"
+path = "src/smart_points/guard.rs"
+
+[[bin]]
+name = "mystring"
+path = "src/smart_points/my_string.rs"
+
+[[bin]]
+name = "slice_practise"
+path = "src/data_structure/slice_practise.rs"
+
+[[bin]]
+name = "hash"
+path = "src/hash/hash.rs"
+
+[[bin]]
+name = "btree_map"
+path = "src/hash/btree_map.rs"
+
+[[bin]]
+name = "error_handle"
+path = "src/error_handle/handle.rs"
+
+[[bin]]
+name = "file_config"
+path = "src/file_config/file_config.rs"
+
+[[bin]]
+name = "jwt_practise"
+path = "src/jwt_pracise/jwt_practise.rs"
+
+
+[dependencies]
+actix-web = "4.4.0"
+async-trait = "0.1"
+reqwest = { version = "0.11", features = ["blocking"] }
+html2md = "0.2"
+serde = { version = "1.0.105", features = ["derive"] }
+serde_json = "1.0.50"
+serde_yaml = "0.8.11"
+serde_urlencoded = "0.6.1"
+toml = "0.5.6"
+chrono = { version = "0.4.11", features = ["serde"] }
+lazy_static = "1"
+tokio = { version = "1", features = ["full"] }
+tokio-util = "0.7.4"
+futures = "0.3.26"
+url = "2.4.1"
+anyhow = "1.0.75"
+itertools = "0.11.0"
+config = "0.13.3"
+jsonwebtoken = "9.1.0"
+libc = "0.2"
+
+[dev-dependencies]
+utils = {path = "../utils", features = ["test-util"]}
