@@ -2,4 +2,4 @@
 version = "0.1.0"
 edition = "2021"
 
-members = [ "mpsc_practise","practise", "utils"]
+members = [ "async_practise", "mpsc_practise","practise", "utils"]
